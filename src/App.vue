@@ -63,29 +63,22 @@ export default {
     },
 
     onContainerClick(e) {
-      console.log(e.target);
       if (e.target.parentElement?.classList.contains("fa-trash")) {
-        console.log("fa-trash");
         this.deleteTodo(e.target.parentElement?.id);
-        console.log(this.todos);
       }
 
       if (
         e.target.classList.contains("fa-times") ||
         e.target.parentElement?.classList.contains("fa-times")
       ) {
-        console.log("fa-times");
         this.toggleComplete(e.target.id || e.target.parentElement?.id);
-        console.log(this.todos);
       }
 
       if (
         e.target.classList.contains("fa-check") ||
         e.target.parentElement?.classList.contains("fa-check")
       ) {
-        console.log("fa-check");
         this.toggleComplete(e.target.id || e.target.parentElement?.id);
-        console.log(this.todos);
       }
     },
 
