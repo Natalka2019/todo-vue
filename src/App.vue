@@ -54,6 +54,7 @@
 </template>
 
 <script>
+import { v4 as uuidv4 } from "uuid";
 import buttonRegular from "./components/buttonRegular.vue";
 import inputRegular from "./components/inputRegular.vue";
 
@@ -69,27 +70,53 @@ export default {
       todos: [],
     };
   },
+  mounted() {
+    this.todos = this.readFromLocalStorage();
+  },
   methods: {
     addButtonClick() {
       if (this.description !== "") {
-        // const todo = saveToLocalStorage($inputField.value);
         const newTodo = {
-          id: this.todos.length,
+          id: uuidv4(),
           text: this.description,
           completed: false,
         };
 
         this.todos = [...this.todos, newTodo];
         this.description = "";
+        localStorage.setItem("todos", JSON.stringify(this.todos));
       }
     },
+
     deleteTodo(id) {
       this.todos = this.todos.filter((todo) => todo.id !== id);
+
+      this.removeFromLocalStorage(id);
     },
+
     toggleComplete(id) {
       this.todos = this.todos.map((todo) =>
         todo.id === id ? { ...todo, completed: !todo.completed } : todo
       );
+
+      localStorage.setItem("todos", JSON.stringify(this.todos));
+    },
+
+    removeFromLocalStorage(todoID) {
+      let todos = this.readFromLocalStorage();
+      todos = todos.filter((t) => t.id != todoID);
+
+      if (todos.length === 0) {
+        localStorage.removeItem("todos");
+        return;
+      }
+
+      localStorage.setItem("todos", JSON.stringify(todos));
+    },
+
+    readFromLocalStorage() {
+      const todos = localStorage.getItem("todos");
+      return !todos ? [] : JSON.parse(todos);
     },
   },
 };
