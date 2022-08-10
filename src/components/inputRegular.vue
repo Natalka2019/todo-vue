@@ -3,7 +3,8 @@
     class="input"
     :placeholder="placeholder"
     :required="required"
-    :value="taskDescription"
+    :value="modelValue"
+    @input="updateValue"
   />
 </template>
 
@@ -14,6 +15,12 @@ export default {
     type: String,
     placeholder: String,
     required: Boolean,
+    modelValue: String,
+  },
+  methods: {
+    updateValue(event) {
+      this.$emit("update:modelValue", event.target.value);
+    },
   },
 };
 </script>

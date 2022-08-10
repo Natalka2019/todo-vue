@@ -5,7 +5,8 @@
       type="text"
       class="inputField"
       placeholder="add new task"
-      v-model="taskDescription"
+      v-model="description"
+      @keyup.enter="addButtonClick"
       required
     />
     <buttonRegular
@@ -20,25 +21,33 @@
     <span class="header">Tasks</span>
     <span class="header">Incomplete</span>
     <span class="header">Completed</span>
-    <div v-for="todo in todos" v-bind:key="todo.id">
-      <div :class="[todo.completed ? 'todo completed' : 'todo']">
-        <span>
-          <span class="todo-id">{{ todo.id }}</span>
-          <span>{{ todo.text }}</span>
-        </span>
-        <div class="todo-actions">
-          <font-awesome-icon
-            v-if="todo.completed"
-            icon="times"
-            class="i fas fa-times"
-          />
-          <font-awesome-icon
-            v-if="!todo.completed"
-            icon="check"
-            class="i fas fa-check"
-          />
-          <font-awesome-icon icon="trash" class="i fas fa-trash" />
-        </div>
+    <div
+      v-for="todo in todos"
+      v-bind:key="todo.id"
+      :class="[todo.completed ? 'todo completed' : 'todo']"
+    >
+      <span>
+        <span class="todo-id">{{ todo.id }}</span>
+        <span>{{ todo.text }}</span>
+      </span>
+      <div class="todo-actions">
+        <font-awesome-icon
+          v-if="todo.completed"
+          icon="times"
+          class="i fas fa-times"
+          @click="toggleComplete(todo.id)"
+        />
+        <font-awesome-icon
+          v-if="!todo.completed"
+          icon="check"
+          class="i fas fa-check"
+          @click="toggleComplete(todo.id)"
+        />
+        <font-awesome-icon
+          icon="trash"
+          class="i fas fa-trash"
+          @click="deleteTodo(todo.id)"
+        />
       </div>
     </div>
   </div>
@@ -56,20 +65,31 @@ export default {
   },
   data() {
     return {
-      taskDescription: "",
-      todos: [
-        // { id: 1, text: "hello", completed: false },
-        { id: 2, text: "world", completed: true },
-        // { id: 2, text: "world", completed: true },
-        // { id: 2, text: "world", completed: true },
-      ],
+      description: "",
+      todos: [],
     };
   },
   methods: {
     addButtonClick() {
-      console.log("Button clicked");
-      console.log(this.taskDescription);
-      console.log(this.incompleteTasks);
+      if (this.description !== "") {
+        // const todo = saveToLocalStorage($inputField.value);
+        const newTodo = {
+          id: this.todos.length,
+          text: this.description,
+          completed: false,
+        };
+
+        this.todos = [...this.todos, newTodo];
+        this.description = "";
+      }
+    },
+    deleteTodo(id) {
+      this.todos = this.todos.filter((todo) => todo.id !== id);
+    },
+    toggleComplete(id) {
+      this.todos = this.todos.map((todo) =>
+        todo.id === id ? { ...todo, completed: !todo.completed } : todo
+      );
     },
   },
 };
@@ -118,7 +138,6 @@ h1 {
   grid-template-rows: auto;
   grid-gap: 15px 15px;
   grid-auto-flow: dense;
-  background-color: green;
 }
 
 .header {
@@ -150,7 +169,6 @@ h1 {
 }
 
 .todo {
-  background-color: yellow;
   grid-column: 1 / span 1;
   padding: 15px 10px;
   border-radius: 5px;
