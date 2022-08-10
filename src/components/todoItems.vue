@@ -3,30 +3,19 @@
     v-for="todo in todos"
     v-bind:key="todo.id"
     :class="[todo.completed ? 'todo completed' : 'todo']"
-    :id="todo.id"
   >
-    <span>{{ todo.text }}</span>
-    <div class="todo-actions">
-      <font-awesome-icon
-        v-if="todo.completed"
-        icon="times"
-        class="i fas fa-times"
-        :id="todo.id"
-      />
-      <font-awesome-icon
-        v-if="!todo.completed"
-        icon="check"
-        class="i fas fa-check"
-        :id="todo.id"
-      />
-      <font-awesome-icon icon="trash" class="i fas fa-trash" :id="todo.id" />
-    </div>
+    <todoItem :todo="todo"></todoItem>
   </div>
 </template>
 
 <script>
+import todoItem from "./todoItem.vue";
+
 export default {
   name: "todoItems",
+  components: {
+    todoItem,
+  },
   props: {
     todos: Array,
   },
@@ -34,24 +23,6 @@ export default {
 </script>
 
 <style>
-.i {
-  cursor: pointer;
-  color: #444;
-}
-
-.i.fa-trash {
-  margin-left: 10px;
-}
-
-.i.fa-check:hover {
-  color: green;
-}
-
-.i.fa-trash:hover,
-.i.fa-times:hover {
-  color: red;
-}
-
 .todo {
   grid-column: 1 / span 1;
   padding: 15px 10px;
