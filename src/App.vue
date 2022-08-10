@@ -17,39 +17,11 @@
     />
   </div>
 
-  <div class="container">
+  <div class="container" @click="onContainerClick">
     <span class="header">Tasks</span>
     <span class="header">Incomplete</span>
     <span class="header">Completed</span>
-    <div
-      v-for="todo in todos"
-      v-bind:key="todo.id"
-      :class="[todo.completed ? 'todo completed' : 'todo']"
-    >
-      <span>
-        <span class="todo-id">{{ todo.id }}</span>
-        <span>{{ todo.text }}</span>
-      </span>
-      <div class="todo-actions">
-        <font-awesome-icon
-          v-if="todo.completed"
-          icon="times"
-          class="i fas fa-times"
-          @click="toggleComplete(todo.id)"
-        />
-        <font-awesome-icon
-          v-if="!todo.completed"
-          icon="check"
-          class="i fas fa-check"
-          @click="toggleComplete(todo.id)"
-        />
-        <font-awesome-icon
-          icon="trash"
-          class="i fas fa-trash"
-          @click="deleteTodo(todo.id)"
-        />
-      </div>
-    </div>
+    <todoItems :todos="todos"></todoItems>
   </div>
 </template>
 
@@ -57,12 +29,14 @@
 import { v4 as uuidv4 } from "uuid";
 import buttonRegular from "./components/buttonRegular.vue";
 import inputRegular from "./components/inputRegular.vue";
+import todoItems from "./components/todoItems.vue";
 
 export default {
   name: "App",
   components: {
     buttonRegular,
     inputRegular,
+    todoItems,
   },
   data() {
     return {
@@ -85,6 +59,33 @@ export default {
         this.todos = [...this.todos, newTodo];
         this.description = "";
         localStorage.setItem("todos", JSON.stringify(this.todos));
+      }
+    },
+
+    onContainerClick(e) {
+      console.log(e.target);
+      if (e.target.parentElement?.classList.contains("fa-trash")) {
+        console.log("fa-trash");
+        this.deleteTodo(e.target.parentElement?.id);
+        console.log(this.todos);
+      }
+
+      if (
+        e.target.classList.contains("fa-times") ||
+        e.target.parentElement?.classList.contains("fa-times")
+      ) {
+        console.log("fa-times");
+        this.toggleComplete(e.target.id || e.target.parentElement?.id);
+        console.log(this.todos);
+      }
+
+      if (
+        e.target.classList.contains("fa-check") ||
+        e.target.parentElement?.classList.contains("fa-check")
+      ) {
+        console.log("fa-check");
+        this.toggleComplete(e.target.id || e.target.parentElement?.id);
+        console.log(this.todos);
       }
     },
 
@@ -177,60 +178,6 @@ h1 {
   grid-column: 1 / span 2;
 }
 
-.i {
-  cursor: pointer;
-  color: #444;
-}
-
-.i.fa-trash {
-  margin-left: 7px;
-}
-
-.i.fa-check:hover {
-  color: green;
-}
-
-.i.fa-trash:hover,
-.i.fa-times:hover {
-  color: red;
-}
-
-.todo {
-  grid-column: 1 / span 1;
-  padding: 15px 10px;
-  border-radius: 5px;
-  border-bottom: 3px solid red;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  box-shadow: 0.1px 0.1px 2px rgba(0, 0, 0, 0.4);
-  animation: todo 0.3s ease;
-}
-
-.todo:hover {
-  background-color: rgba(255, 0, 0, 0.3);
-  color: red;
-}
-
-.todo:hover.completed {
-  background-color: rgba(0, 255, 0, 0.3);
-  color: green;
-}
-
-.todo.completed {
-  grid-column: 2 / span 1;
-  border-color: green;
-}
-
-.todo-id {
-  display: none;
-}
-
-.todo-actions {
-  display: flex;
-  padding: 0 0 0 7px;
-}
-
 @media (max-width: 380px) {
   .container {
     padding: 10px 10px;
@@ -245,24 +192,6 @@ h1 {
 @media (max-width: 370px) {
   body {
     padding: 0 5px;
-  }
-
-  .todo {
-    flex-direction: column;
-    justify-content: center;
-  }
-
-  .todo-actions {
-    margin-top: 10px;
-  }
-}
-
-@keyframes todo {
-  from {
-    transform: scale(0);
-  }
-  to {
-    transform: scale(1);
   }
 }
 </style>
