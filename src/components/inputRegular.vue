@@ -1,5 +1,10 @@
 <template>
-  <input class="input" :placeholder="placeholder" :required="required" />
+  <input
+    class="input"
+    :placeholder="placeholder"
+    :required="required"
+    :value="taskDescription"
+  />
 </template>
 
 <script>

@@ -10,6 +10,10 @@ export default {
   props: {
     id: String,
     title: String,
+    onClick: {
+      type: Function,
+      required: true,
+    },
   },
 };
 </script>

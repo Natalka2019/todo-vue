@@ -5,6 +5,7 @@
       type="text"
       class="inputField"
       placeholder="add new task"
+      v-model="taskDescription"
       required
     />
     <buttonRegular
@@ -19,6 +20,27 @@
     <span class="header">Tasks</span>
     <span class="header">Incomplete</span>
     <span class="header">Completed</span>
+    <div v-for="todo in todos" v-bind:key="todo.id">
+      <div :class="[todo.completed ? 'todo completed' : 'todo']">
+        <span>
+          <span class="todo-id">{{ todo.id }}</span>
+          <span>{{ todo.text }}</span>
+        </span>
+        <div class="todo-actions">
+          <font-awesome-icon
+            v-if="todo.completed"
+            icon="times"
+            class="i fas fa-times"
+          />
+          <font-awesome-icon
+            v-if="!todo.completed"
+            icon="check"
+            class="i fas fa-check"
+          />
+          <font-awesome-icon icon="trash" class="i fas fa-trash" />
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -32,10 +54,22 @@ export default {
     buttonRegular,
     inputRegular,
   },
+  data() {
+    return {
+      taskDescription: "",
+      todos: [
+        // { id: 1, text: "hello", completed: false },
+        { id: 2, text: "world", completed: true },
+        // { id: 2, text: "world", completed: true },
+        // { id: 2, text: "world", completed: true },
+      ],
+    };
+  },
   methods: {
-    addButtonClick(event) {
-      console.log(event);
+    addButtonClick() {
       console.log("Button clicked");
+      console.log(this.taskDescription);
+      console.log(this.incompleteTasks);
     },
   },
 };
@@ -84,6 +118,7 @@ h1 {
   grid-template-rows: auto;
   grid-gap: 15px 15px;
   grid-auto-flow: dense;
+  background-color: green;
 }
 
 .header {
@@ -96,6 +131,61 @@ h1 {
   grid-column: 1 / span 2;
 }
 
+.i {
+  cursor: pointer;
+  color: #444;
+}
+
+.i.fa-trash {
+  margin-left: 7px;
+}
+
+.i.fa-check:hover {
+  color: green;
+}
+
+.i.fa-trash:hover,
+.i.fa-times:hover {
+  color: red;
+}
+
+.todo {
+  background-color: yellow;
+  grid-column: 1 / span 1;
+  padding: 15px 10px;
+  border-radius: 5px;
+  border-bottom: 3px solid red;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0.1px 0.1px 2px rgba(0, 0, 0, 0.4);
+  animation: todo 0.3s ease;
+}
+
+.todo:hover {
+  background-color: rgba(255, 0, 0, 0.3);
+  color: red;
+}
+
+.todo:hover.completed {
+  background-color: rgba(0, 255, 0, 0.3);
+  color: green;
+}
+
+.todo.completed {
+  grid-column: 2 / span 1;
+  border-color: green;
+}
+
+.todo-id {
+  display: none;
+}
+
+.todo-actions {
+  display: flex;
+  padding: 0 0 0 7px;
+}
+
 @media (max-width: 380px) {
   .container {
     padding: 10px 10px;
@@ -104,6 +194,30 @@ h1 {
   .inputField,
   .addButton {
     width: 90%;
+  }
+}
+
+@media (max-width: 370px) {
+  body {
+    padding: 0 5px;
+  }
+
+  .todo {
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .todo-actions {
+    margin-top: 10px;
+  }
+}
+
+@keyframes todo {
+  from {
+    transform: scale(0);
+  }
+  to {
+    transform: scale(1);
   }
 }
 </style>
