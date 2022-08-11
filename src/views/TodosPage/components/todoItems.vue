@@ -22,7 +22,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .todo {
   grid-column: 1 / span 1;
   padding: 15px 10px;

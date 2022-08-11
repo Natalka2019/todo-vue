@@ -1,27 +1,30 @@
 <template>
-  <h1>ToDo List</h1>
-  <div class="input-container">
-    <inputRegular
-      type="text"
-      class="inputField"
-      placeholder="add new task"
-      v-model="description"
-      @keyup.enter="addButtonClick"
-      required
-    />
-    <buttonRegular
-      id="btn"
-      title="Add Task"
-      class="addButton"
-      @click="addButtonClick"
-    />
-  </div>
+  <div class="container">
+    <h1>ToDo List</h1>
+    <div class="input-container">
+      <inputRegular
+        type="text"
+        class="inputFieldContainer"
+        inputFieldClass="inputField"
+        placeholder="add new task"
+        v-model="description"
+        @keyup.enter="addButtonClick"
+        required
+      />
+      <buttonRegular
+        id="btn"
+        title="Add Task"
+        class="addButton"
+        @click="addButtonClick"
+      />
+    </div>
 
-  <div class="container" @click="onContainerClick">
-    <span class="header">Tasks</span>
-    <span class="header">Incomplete</span>
-    <span class="header">Completed</span>
-    <todoItems :todos="todos"></todoItems>
+    <div class="tasks-container" @click="onContainerClick">
+      <span class="header">Tasks</span>
+      <span class="header">Incomplete</span>
+      <span class="header">Completed</span>
+      <todoItems :todos="todos"></todoItems>
+    </div>
   </div>
 </template>
 
@@ -106,10 +109,12 @@ export default {
 };
 </script>
 
-<style>
-#app {
+<style scoped>
+.container {
   font-family: "Montserrat", sans-serif;
   padding: 0 20px;
+  display: flex;
+  flex-direction: column;
 }
 
 h1 {
@@ -128,8 +133,30 @@ h1 {
   margin: 0 0 20px 0;
 }
 
-.inputField {
+.inputFieldContainer {
   width: 60%;
+  font-size: 1.1rem;
+}
+
+::v-deep .inputField {
+  padding: 12px;
+  margin: 0 0 15px 0;
+  border-radius: 5px;
+  background: #eee;
+  box-shadow: 0.1px 0.1px 2px rgba(0, 0, 0, 0.3);
+  letter-spacing: 0.8px;
+}
+
+.inputField input {
+  background: #eee;
+}
+
+.inputField:focus:invalid {
+  border-bottom: 2px solid red;
+}
+
+.inputField:valid {
+  border-bottom: 2px solid green;
 }
 
 .addButton {
@@ -141,7 +168,7 @@ h1 {
   font-weight: bold;
 }
 
-.container {
+.tasks-container {
   box-shadow: 0.1px 0.1px 2px rgba(0, 0, 0, 0.4);
   padding: 20px;
   display: grid;

@@ -1,11 +1,16 @@
 <template>
-  <input
-    class="input"
-    :placeholder="placeholder"
-    :required="required"
-    :value="modelValue"
-    @input="updateValue"
-  />
+  <div class="inputContainer">
+    <label v-if:="label" class="label">{{ label }}</label>
+    <input
+      class="input"
+      :class="inputFieldClass"
+      :placeholder="placeholder"
+      :required="required"
+      :value="modelValue"
+      @input="updateValue"
+    />
+    <p v-if:="error">{{ error }}</p>
+  </div>
 </template>
 
 <script>
@@ -16,6 +21,9 @@ export default {
     placeholder: String,
     required: Boolean,
     modelValue: String,
+    label: String,
+    error: String,
+    inputFieldClass: String,
   },
   methods: {
     updateValue(event) {
@@ -26,25 +34,20 @@ export default {
 </script>
 
 <style scoped>
+.inputContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.label {
+  margin-bottom: 8px;
+}
+
 .input {
-  box-sizing: border-box;
-  padding: 12px;
-  font-size: 1.1rem;
-  margin: 0 0 15px 0;
-  border-radius: 5px;
+  width: 100%;
+  font-size: inherit;
   border: none;
-  background: #eee;
+  background: inherit;
   outline: none;
-  box-shadow: 0.1px 0.1px 2px rgba(0, 0, 0, 0.3);
-  font-family: inherit;
-  letter-spacing: 0.8px;
-}
-
-.input:focus:invalid {
-  border-bottom: 2px solid red;
-}
-
-.input:valid {
-  border-bottom: 2px solid green;
 }
 </style>

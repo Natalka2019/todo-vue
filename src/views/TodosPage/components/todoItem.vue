@@ -26,7 +26,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .i {
   cursor: pointer;
   color: #444;
