@@ -57,7 +57,9 @@ export default {
         };
 
         this.todos = [...this.todos, newTodo];
+
         this.description = "";
+
         localStorage.setItem("todos", JSON.stringify(this.todos));
       }
     },
@@ -69,12 +71,7 @@ export default {
 
       if (
         e.target.classList.contains("fa-times") ||
-        e.target.parentElement?.classList.contains("fa-times")
-      ) {
-        this.toggleComplete(e.target.id || e.target.parentElement?.id);
-      }
-
-      if (
+        e.target.parentElement?.classList.contains("fa-times") ||
         e.target.classList.contains("fa-check") ||
         e.target.parentElement?.classList.contains("fa-check")
       ) {
@@ -85,7 +82,12 @@ export default {
     deleteTodo(id) {
       this.todos = this.todos.filter((todo) => todo.id !== id);
 
-      this.removeFromLocalStorage(id);
+      if (this.todos.length === 0) {
+        localStorage.removeItem("todos");
+        return;
+      }
+
+      localStorage.setItem("todos", JSON.stringify(this.todos));
     },
 
     toggleComplete(id) {
@@ -94,18 +96,6 @@ export default {
       );
 
       localStorage.setItem("todos", JSON.stringify(this.todos));
-    },
-
-    removeFromLocalStorage(todoID) {
-      let todos = this.readFromLocalStorage();
-      todos = todos.filter((t) => t.id != todoID);
-
-      if (todos.length === 0) {
-        localStorage.removeItem("todos");
-        return;
-      }
-
-      localStorage.setItem("todos", JSON.stringify(todos));
     },
 
     readFromLocalStorage() {
