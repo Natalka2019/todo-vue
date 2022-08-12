@@ -2,7 +2,7 @@
   <div class="container">
     <div className="signUp">
       <h1>SignUp</h1>
-      <pre>{{ form }}</pre>
+      <pre>{{ form.email }}</pre>
       <form className="inputsContainer" @submit.prevent="submit">
         <inputRegular
           class="inputFieldContainer"
@@ -24,10 +24,13 @@
             !form.lastName.valid && form.lastName.touched ? errorClass : '',
             activeClass,
           ]"
+          inputFieldErrorClass="inputFieldErrorClass"
           label="Last name"
           placeholder="Enter last name"
           v-model="form.lastName.value"
           type="text"
+          :error="form.lastName.touched ? errorMessage(form.lastName) : ''"
+          @blur="form.lastName.blur"
         />
         <inputRegular
           class="inputFieldContainer"
@@ -35,10 +38,13 @@
             !form.email.valid && form.email.touched ? errorClass : '',
             activeClass,
           ]"
+          inputFieldErrorClass="inputFieldErrorClass"
           label="Email"
           placeholder="Enter email"
           v-model="form.email.value"
           type="email"
+          :error="form.email.touched ? errorMessage(form.email) : ''"
+          @blur="form.email.blur"
         />
         <inputRegular
           class="inputFieldContainer"
@@ -46,10 +52,13 @@
             !form.phone.valid && form.phone.touched ? errorClass : '',
             activeClass,
           ]"
+          inputFieldErrorClass="inputFieldErrorClass"
           label="Phone number"
           placeholder="Enter phone number"
           v-model="form.phone.value"
           type="tel"
+          :error="form.phone.touched ? errorMessage(form.phone) : ''"
+          @blur="form.phone.blur"
         />
         <inputRegular
           class="inputFieldContainer"
@@ -57,10 +66,12 @@
             !form.password.valid && form.password.touched ? errorClass : '',
             activeClass,
           ]"
+          inputFieldErrorClass="inputFieldErrorClass"
           label="Password"
           placeholder="Enter password"
           v-model="form.password.value"
           type="password"
+          maxPasswordlength="50"
         />
         <inputRegular
           class="inputFieldContainer"
@@ -70,10 +81,12 @@
               : '',
             activeClass,
           ]"
+          inputFieldErrorClass="inputFieldErrorClass"
           label="Confirm password"
           placeholder="Enter confirm password"
           v-model="form.confirmPassword.value"
-          type="passowrd"
+          type="password"
+          maxPasswordlength="50"
         />
         <buttonRegular
           @click="goToTodosPage(form)"
@@ -106,6 +119,10 @@ const noDigits = (val) => {
   return { status: /^([^0-9]*)$/.test(val) };
 };
 
+const validEmail = (val) => {
+  return { status: /^.{1,64}@(.\..){1,64}$/.test(val) };
+};
+
 export default {
   name: "SignUpPage",
   components: {
@@ -131,19 +148,31 @@ export default {
         },
       },
       lastName: {
+        name: "Last name",
         value: "",
       },
       email: {
+        name: "Email",
         value: "",
+        validators: {
+          validEmail,
+        },
       },
       phone: {
+        name: "Phone number",
         value: "",
       },
       password: {
+        name: "Password",
         value: "",
-        validators: { required, minLength: minLength(8) },
+        validators: {
+          required,
+          minLength: minLength(8),
+          maxLength: maxLength(50),
+        },
       },
       confirmPassword: {
+        name: "Confirm password",
         value: "",
       },
     });
@@ -154,6 +183,9 @@ export default {
     goToTodosPage(form) {
       console.log({
         firstName: form.firstName.value,
+        lastName: form.lastName.value,
+        email: form.email.value,
+        phone: form.phone.value,
       });
       this.$router.push("/todos");
     },
@@ -162,15 +194,17 @@ export default {
         return "";
       }
 
-      if (field.errors.required.status) {
+      if (field.errors.required?.status) {
         return `${field.name} is required`;
       } else if (
-        field.errors.minLength.status ||
-        field.errors.maxLength.status
+        field.errors.minLength?.status ||
+        field.errors.maxLength?.status
       ) {
         return `${field.name} must be from ${field.errors.minLength.value} to ${field.errors.maxLength.value} characters`;
-      } else if (field.errors.noDigits.status) {
+      } else if (field.errors.noDigits?.status) {
         return `${field.name} can not contain digits`;
+      } else if (field.errors.validEmail?.status) {
+        return "Email invalid";
       }
     },
   },

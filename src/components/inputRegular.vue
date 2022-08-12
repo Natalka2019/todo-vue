@@ -10,6 +10,7 @@
       @input="updateValue"
       :type="type"
       @blur="$emit('blur', $event)"
+      :maxlength="maxPasswordlength"
     />
     <p class="error" :class="inputFieldErrorClass">{{ error }}</p>
   </div>
@@ -28,6 +29,7 @@ export default {
     inputFieldClass: Array,
     inputFieldErrorClass: String,
     blur: Function,
+    maxPasswordlength: String,
   },
   methods: {
     updateValue(event) {
@@ -57,8 +59,5 @@ export default {
 
 .error {
   margin: 0;
-  /* font-size: 10px;
-  height: 15px;
-  color: red; */
 }
 </style>
