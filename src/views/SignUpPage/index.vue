@@ -2,7 +2,7 @@
   <div class="container">
     <div className="signUp">
       <h1>SignUp</h1>
-      <pre>{{ form.email }}</pre>
+      <pre>{{ form.password }}</pre>
       <form className="inputsContainer" @submit.prevent="submit">
         <inputRegular
           class="inputFieldContainer"
@@ -72,6 +72,8 @@
           v-model="form.password.value"
           type="password"
           maxPasswordlength="50"
+          :error="form.password.touched ? errorMessage(form.password) : ''"
+          @blur="form.password.blur"
         />
         <inputRegular
           class="inputFieldContainer"
@@ -87,6 +89,12 @@
           v-model="form.confirmPassword.value"
           type="password"
           maxPasswordlength="50"
+          :error="
+            form.confirmPassword.touched
+              ? errorMessage(form.confirmPassword)
+              : ''
+          "
+          @blur="form.confirmPassword.blur"
         />
         <buttonRegular
           @click="goToTodosPage(form)"
@@ -121,6 +129,22 @@ const noDigits = (val) => {
 
 const validEmail = (val) => {
   return { status: /^.{1,64}@(.\..){1,64}$/.test(val) };
+};
+
+const validPassword = (val) => {
+  return {
+    status: /^(?=.*[A-Z])(?=.*\d)[A-Za-z\d@$!%*?&]{8,50}$/.test(val),
+  };
+};
+
+const validConfirmPassword = (password) => (confirmPassword) => {
+  console.log(this);
+  console.log(password);
+  console.log(confirmPassword);
+  // return {
+  //   status: password === confirmPassword,
+  // };
+  return { status: false };
 };
 
 export default {
@@ -169,11 +193,16 @@ export default {
           required,
           minLength: minLength(8),
           maxLength: maxLength(50),
+          validPassword,
         },
       },
       confirmPassword: {
         name: "Confirm password",
         value: "",
+      },
+      validators: {
+        required,
+        validConfirmPassword: validConfirmPassword(this),
       },
     });
 
@@ -205,6 +234,8 @@ export default {
         return `${field.name} can not contain digits`;
       } else if (field.errors.validEmail?.status) {
         return "Email invalid";
+      } else if (field.errors.validPassword?.status) {
+        return "Invalid password. Should contain at least 1 upper-case letter and 1 digit, spaces are not allowed.";
       }
     },
   },
@@ -268,7 +299,7 @@ h1 {
 
 ::v-deep .inputFieldErrorClass {
   font-size: 10px;
-  height: 15px;
+  min-height: 15px;
   color: red;
 }
 

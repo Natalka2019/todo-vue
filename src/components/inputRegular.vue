@@ -26,7 +26,7 @@ export default {
     modelValue: String,
     label: String,
     error: String,
-    inputFieldClass: Array,
+    inputFieldClass: [String, Array],
     inputFieldErrorClass: String,
     blur: Function,
     maxPasswordlength: String,
