@@ -8,8 +8,10 @@
       :required="required"
       :value="modelValue"
       @input="updateValue"
+      :type="type"
+      @blur="$emit('blur', $event)"
     />
-    <p v-if:="error">{{ error }}</p>
+    <p class="error" :class="inputFieldErrorClass">{{ error }}</p>
   </div>
 </template>
 
@@ -23,7 +25,9 @@ export default {
     modelValue: String,
     label: String,
     error: String,
-    inputFieldClass: String,
+    inputFieldClass: Array,
+    inputFieldErrorClass: String,
+    blur: Function,
   },
   methods: {
     updateValue(event) {
@@ -49,5 +53,12 @@ export default {
   border: none;
   background: inherit;
   outline: none;
+}
+
+.error {
+  margin: 0;
+  /* font-size: 10px;
+  height: 15px;
+  color: red; */
 }
 </style>

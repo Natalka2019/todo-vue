@@ -1,5 +1,5 @@
 <template>
-  <button class="button" @click="onClick">
+  <button class="button" @click="onClick" :type="type" :disabled="disabled">
     {{ title }}
   </button>
 </template>
@@ -10,10 +10,12 @@ export default {
   props: {
     id: String,
     title: String,
+    type: String,
     onClick: {
       type: Function,
       required: true,
     },
+    disabled: Boolean,
   },
 };
 </script>
@@ -29,5 +31,10 @@ export default {
   font-family: inherit;
   letter-spacing: 0.8px;
   cursor: pointer;
+}
+
+.button:disabled {
+  background-color: rgb(163, 159, 159);
+  border: none;
 }
 </style>
