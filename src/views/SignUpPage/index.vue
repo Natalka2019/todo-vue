@@ -128,7 +128,7 @@ const noDigits = (val) => {
 };
 
 const validEmail = (val) => {
-  return { status: /^.{1,64}@(.\..){1,64}$/.test(val) };
+  return { status: /(?=^.{1,64}@.{1,64}$)^(.+@.+\..+)$/.test(val) };
 };
 
 const validPassword = (val) => {
