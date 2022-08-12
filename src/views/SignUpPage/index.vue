@@ -112,34 +112,15 @@
 import buttonRegular from "../../components/buttonRegular.vue";
 import inputRegular from "../../components/inputRegular.vue";
 import { useForm } from "../../use/form";
-
-const required = (val) => ({ status: !!val });
-const minLength = (num) => (val) => ({
-  status: val.length >= num,
-  value: num,
-});
-const maxLength = (num) => (val) => ({
-  status: val.length <= num,
-  value: num,
-});
-
-const noDigits = (val) => {
-  return { status: /^([^0-9]*)$/.test(val) };
-};
-
-const validEmail = (val) => {
-  return { status: /(?=^.{1,64}@.{1,64}$)^(.+@.+\..+)$/.test(val) };
-};
-
-const validPassword = (val) => {
-  return {
-    status: /^(?=.*[A-Z])(?=.*\d)[A-Za-z\d@$!%*?&]{8,50}$/.test(val),
-  };
-};
-
-const validConfirmPassword = () => {
-  return { status: false };
-};
+import {
+  required,
+  minLength,
+  maxLength,
+  noDigits,
+  validEmail,
+  validPassword,
+  validConfirmPassword,
+} from "../../utilities";
 
 export default {
   name: "SignUpPage",
@@ -251,8 +232,7 @@ export default {
 
 <style scoped>
 .container {
-  /* height: 100vh; */
-
+  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -276,14 +256,7 @@ h1 {
 
 .inputFieldContainer {
   width: 400px;
-  margin-bottom: 4px;
-  font-size: 13px;
-  line-height: 20px;
-}
-
-.inputFieldContainer {
-  width: 400px;
-  margin-bottom: 4px;
+  margin-bottom: 8px;
   font-size: 13px;
   line-height: 20px;
 }
@@ -305,8 +278,7 @@ h1 {
 }
 
 ::v-deep .inputFieldErrorClass {
-  font-size: 10px;
-  min-height: 15px;
+  font-size: 12px;
   color: red;
 }
 

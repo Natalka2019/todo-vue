@@ -166,6 +166,7 @@ h1 {
   width: 30%;
   box-shadow: 0.1px 0.1px 2px rgba(0, 0, 0, 0.4);
   font-weight: bold;
+  margin: 0 0 15px 0;
 }
 
 .tasks-container {

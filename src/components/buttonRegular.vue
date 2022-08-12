@@ -24,7 +24,6 @@ export default {
 .button {
   box-sizing: border-box;
   padding: 12px;
-  margin: 0 0 15px 0;
   border-radius: 5px;
   border: none;
   outline: none;
