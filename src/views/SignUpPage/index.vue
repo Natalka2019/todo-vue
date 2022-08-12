@@ -2,7 +2,6 @@
   <div class="container">
     <div className="signUp">
       <h1>SignUp</h1>
-      <pre>{{ form.password }}</pre>
       <form className="inputsContainer" @submit.prevent="submit">
         <inputRegular
           class="inputFieldContainer"
@@ -95,6 +94,7 @@
               : ''
           "
           @blur="form.confirmPassword.blur"
+          @input="validConfirmPassword()"
         />
         <buttonRegular
           @click="goToTodosPage(form)"
@@ -137,13 +137,7 @@ const validPassword = (val) => {
   };
 };
 
-const validConfirmPassword = (password) => (confirmPassword) => {
-  console.log(this);
-  console.log(password);
-  console.log(confirmPassword);
-  // return {
-  //   status: password === confirmPassword,
-  // };
+const validConfirmPassword = () => {
   return { status: false };
 };
 
@@ -199,10 +193,10 @@ export default {
       confirmPassword: {
         name: "Confirm password",
         value: "",
-      },
-      validators: {
-        required,
-        validConfirmPassword: validConfirmPassword(this),
+        validators: {
+          required,
+          validConfirmPassword,
+        },
       },
     });
 
@@ -217,6 +211,17 @@ export default {
         phone: form.phone.value,
       });
       this.$router.push("/todos");
+    },
+    validConfirmPassword() {
+      const isTheSamePassword =
+        this.form.password?.value === this.form.confirmPassword?.value;
+
+      this.form.confirmPassword.errors.validConfirmPassword.status =
+        !isTheSamePassword;
+
+      this.form.confirmPassword.valid =
+        !this.form.confirmPassword.errors.required.status &&
+        !this.form.confirmPassword.errors.validConfirmPassword.status;
     },
     errorMessage(field) {
       if (field.valid) {
@@ -236,6 +241,8 @@ export default {
         return "Email invalid";
       } else if (field.errors.validPassword?.status) {
         return "Invalid password. Should contain at least 1 upper-case letter and 1 digit, spaces are not allowed.";
+      } else if (field.errors.validConfirmPassword?.status) {
+        return "Passwords do not match";
       }
     },
   },
