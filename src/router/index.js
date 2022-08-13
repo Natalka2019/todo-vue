@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
-import TodosPage from "../views/TodosPage";
-import SignUpPage from "../views/SignUpPage";
+import TodosPage from "../views/TodosPage/TodosPage";
+import SignUpPage from "../views/SignUpPage/SignUpPage";
 
 const routes = [
   {

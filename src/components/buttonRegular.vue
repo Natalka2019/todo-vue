@@ -1,23 +1,26 @@
 <template>
-  <button class="button" @click="onClick" :type="type" :disabled="disabled">
-    {{ title }}
+  <button
+    class="button"
+    @click="props.onClick"
+    :type="props.type"
+    :disabled="props.disabled"
+  >
+    {{ props.title }}
   </button>
 </template>
 
-<script>
-export default {
-  name: "buttonRegular",
-  props: {
-    id: String,
-    title: String,
-    type: String,
-    onClick: {
-      type: Function,
-      required: true,
-    },
-    disabled: Boolean,
+<script setup>
+import { defineProps } from "vue";
+
+const props = defineProps({
+  title: String,
+  type: String,
+  onClick: {
+    type: Function,
+    required: true,
   },
-};
+  disabled: Boolean,
+});
 </script>
 
 <style scoped>

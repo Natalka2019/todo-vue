@@ -1,6 +1,6 @@
 <template>
   <div
-    v-for="todo in todos"
+    v-for="todo in props.todos"
     v-bind:key="todo.id"
     :class="[todo.completed ? 'todo completed' : 'todo']"
   >
@@ -8,18 +8,14 @@
   </div>
 </template>
 
-<script>
+<script setup>
+import { defineProps } from "vue";
+
 import todoItem from "./todoItem.vue";
 
-export default {
-  name: "todoItems",
-  components: {
-    todoItem,
-  },
-  props: {
-    todos: Array,
-  },
-};
+const props = defineProps({
+  todos: Array,
+});
 </script>
 
 <style scoped>

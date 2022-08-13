@@ -28,84 +28,73 @@
   </div>
 </template>
 
-<script>
+<script setup>
+import { ref, onMounted } from "vue";
 import { v4 as uuidv4 } from "uuid";
 import buttonRegular from "../../components/buttonRegular.vue";
 import inputRegular from "../../components/inputRegular.vue";
 import todoItems from "./components/todoItems.vue";
 
-export default {
-  name: "TodosPage",
-  components: {
-    buttonRegular,
-    inputRegular,
-    todoItems,
-  },
-  data() {
-    return {
-      description: "",
-      todos: [],
+let description = ref("");
+let todos = ref([]);
+
+const readFromLocalStorage = () => {
+  const todos = localStorage.getItem("todos");
+  return !todos ? [] : JSON.parse(todos);
+};
+
+onMounted(() => {
+  todos.value = readFromLocalStorage();
+});
+
+const addButtonClick = () => {
+  if (description.value !== "") {
+    const newTodo = {
+      id: uuidv4(),
+      text: description.value,
+      completed: false,
     };
-  },
-  mounted() {
-    this.todos = this.readFromLocalStorage();
-  },
-  methods: {
-    addButtonClick() {
-      if (this.description !== "") {
-        const newTodo = {
-          id: uuidv4(),
-          text: this.description,
-          completed: false,
-        };
 
-        this.todos = [...this.todos, newTodo];
+    todos.value = [...todos.value, newTodo];
 
-        this.description = "";
+    description.value = "";
 
-        localStorage.setItem("todos", JSON.stringify(this.todos));
-      }
-    },
+    localStorage.setItem("todos", JSON.stringify(todos.value));
+  }
+};
 
-    onContainerClick(e) {
-      if (e.target.parentElement?.classList.contains("fa-trash")) {
-        this.deleteTodo(e.target.parentElement?.id);
-      }
+const deleteTodo = (id) => {
+  todos.value = todos.value.filter((todo) => todo.id !== id);
 
-      if (
-        e.target.classList.contains("fa-times") ||
-        e.target.parentElement?.classList.contains("fa-times") ||
-        e.target.classList.contains("fa-check") ||
-        e.target.parentElement?.classList.contains("fa-check")
-      ) {
-        this.toggleComplete(e.target.id || e.target.parentElement?.id);
-      }
-    },
+  if (todos.value.length === 0) {
+    localStorage.removeItem("todos");
+    return;
+  }
 
-    deleteTodo(id) {
-      this.todos = this.todos.filter((todo) => todo.id !== id);
+  localStorage.setItem("todos", JSON.stringify(todos.value));
+};
 
-      if (this.todos.length === 0) {
-        localStorage.removeItem("todos");
-        return;
-      }
+const onContainerClick = (e) => {
+  if (e.target.parentElement?.classList.contains("fa-trash")) {
+    deleteTodo(e.target.parentElement?.id);
+  }
 
-      localStorage.setItem("todos", JSON.stringify(this.todos));
-    },
+  if (
+    e.target.classList.contains("fa-times") ||
+    e.target.parentElement?.classList.contains("fa-times") ||
+    e.target.classList.contains("fa-check") ||
+    e.target.parentElement?.classList.contains("fa-check")
+  ) {
+    toggleComplete(e.target.id || e.target.parentElement?.id);
+  }
+};
 
-    toggleComplete(id) {
-      this.todos = this.todos.map((todo) =>
-        todo.id === id ? { ...todo, completed: !todo.completed } : todo
-      );
+const toggleComplete = (id) => {
+  todos.value = todos.value.map((todo) =>
+    todo.id === id ? { ...todo, completed: !todo.completed } : todo
+  );
 
-      localStorage.setItem("todos", JSON.stringify(this.todos));
-    },
-
-    readFromLocalStorage() {
-      const todos = localStorage.getItem("todos");
-      return !todos ? [] : JSON.parse(todos);
-    },
-  },
+  localStorage.setItem("todos", JSON.stringify(todos.value));
 };
 </script>
 

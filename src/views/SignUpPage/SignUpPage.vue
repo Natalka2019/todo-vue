@@ -94,7 +94,7 @@
               : ''
           "
           @blur="form.confirmPassword.blur"
-          @input="validConfirmPassword()"
+          @input="validateConfirmPassword"
         />
         <buttonRegular
           @click="goToTodosPage(form)"
@@ -108,7 +108,8 @@
   </div>
 </template>
 
-<script>
+<script setup>
+import { useRouter } from "vue-router";
 import buttonRegular from "../../components/buttonRegular.vue";
 import inputRegular from "../../components/inputRegular.vue";
 import { useForm } from "../../use/form";
@@ -122,111 +123,96 @@ import {
   validConfirmPassword,
 } from "../../utilities";
 
-export default {
-  name: "SignUpPage",
-  components: {
-    buttonRegular,
-    inputRegular,
-  },
-  data() {
-    return {
-      activeClass: "inputField",
-      errorClass: "invalid",
-    };
-  },
-  setup() {
-    const form = useForm({
-      firstName: {
-        name: "First name",
-        value: "",
-        validators: {
-          required,
-          minLength: minLength(2),
-          maxLength: maxLength(20),
-          noDigits,
-        },
-      },
-      lastName: {
-        name: "Last name",
-        value: "",
-      },
-      email: {
-        name: "Email",
-        value: "",
-        validators: {
-          validEmail,
-        },
-      },
-      phone: {
-        name: "Phone number",
-        value: "",
-      },
-      password: {
-        name: "Password",
-        value: "",
-        validators: {
-          required,
-          minLength: minLength(8),
-          maxLength: maxLength(50),
-          validPassword,
-        },
-      },
-      confirmPassword: {
-        name: "Confirm password",
-        value: "",
-        validators: {
-          required,
-          validConfirmPassword,
-        },
-      },
-    });
+const router = useRouter();
 
-    return { form };
-  },
-  methods: {
-    goToTodosPage(form) {
-      console.log({
-        firstName: form.firstName.value,
-        lastName: form.lastName.value,
-        email: form.email.value,
-        phone: form.phone.value,
-      });
-      this.$router.push("/todos");
-    },
-    validConfirmPassword() {
-      const isTheSamePassword =
-        this.form.password?.value === this.form.confirmPassword?.value;
+const activeClass = "inputField";
+const errorClass = "invalid";
 
-      this.form.confirmPassword.errors.validConfirmPassword.status =
-        !isTheSamePassword;
-
-      this.form.confirmPassword.valid =
-        !this.form.confirmPassword.errors.required.status &&
-        !this.form.confirmPassword.errors.validConfirmPassword.status;
-    },
-    errorMessage(field) {
-      if (field.valid) {
-        return "";
-      }
-
-      if (field.errors.required?.status) {
-        return `${field.name} is required`;
-      } else if (
-        field.errors.minLength?.status ||
-        field.errors.maxLength?.status
-      ) {
-        return `${field.name} must be from ${field.errors.minLength.value} to ${field.errors.maxLength.value} characters`;
-      } else if (field.errors.noDigits?.status) {
-        return `${field.name} can not contain digits`;
-      } else if (field.errors.validEmail?.status) {
-        return "Email invalid";
-      } else if (field.errors.validPassword?.status) {
-        return "Invalid password. Should contain at least 1 upper-case letter and 1 digit, spaces are not allowed.";
-      } else if (field.errors.validConfirmPassword?.status) {
-        return "Passwords do not match";
-      }
+const form = useForm({
+  firstName: {
+    name: "First name",
+    value: "",
+    validators: {
+      required,
+      minLength: minLength(2),
+      maxLength: maxLength(20),
+      noDigits,
     },
   },
+  lastName: {
+    name: "Last name",
+    value: "",
+  },
+  email: {
+    name: "Email",
+    value: "",
+    validators: {
+      validEmail,
+    },
+  },
+  phone: {
+    name: "Phone number",
+    value: "",
+  },
+  password: {
+    name: "Password",
+    value: "",
+    validators: {
+      required,
+      minLength: minLength(8),
+      maxLength: maxLength(50),
+      validPassword,
+    },
+  },
+  confirmPassword: {
+    name: "Confirm password",
+    value: "",
+    validators: {
+      required,
+      validConfirmPassword,
+    },
+  },
+});
+
+const goToTodosPage = (form) => {
+  console.log({
+    firstName: form.firstName.value,
+    lastName: form.lastName.value,
+    email: form.email.value,
+    phone: form.phone.value,
+  });
+  router.push("/todos");
+};
+
+const validateConfirmPassword = () => {
+  const isTheSamePassword =
+    form.password?.value === form.confirmPassword?.value;
+
+  form.confirmPassword.errors.validConfirmPassword.status = !isTheSamePassword;
+
+  form.confirmPassword.valid =
+    !form.confirmPassword.errors.required.status &&
+    !form.confirmPassword.errors.validConfirmPassword.status;
+};
+
+const errorMessage = (field) => {
+  if (field.valid) {
+    return "";
+  }
+
+  if (field.errors.required?.status) {
+    return `${field.name} is required`;
+  } else if (field.errors.minLength?.status || field.errors.maxLength?.status) {
+    return `${field.name} must be from ${field.errors.minLength.value} to ${field.errors.maxLength.value} characters`;
+  } else if (field.errors.noDigits?.status) {
+    return `${field.name} can not contain digits`;
+  } else if (field.errors.validEmail?.status) {
+    return "Email invalid";
+  } else if (field.errors.validPassword?.status) {
+    return "Invalid password. Should contain at least 1 upper-case letter and 1 digit, spaces are not allowed.";
+  } else if (field.errors.validConfirmPassword?.status) {
+    return "Passwords do not match";
+  }
 };
 </script>
 

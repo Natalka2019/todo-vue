@@ -1,29 +1,32 @@
 <template>
-  <span>{{ todo.text }}</span>
+  <span>{{ props.todo.text }}</span>
   <div class="todo-actions">
     <font-awesome-icon
-      v-if="todo.completed"
+      v-if="props.todo.completed"
       icon="times"
       class="i fas fa-times"
-      :id="todo.id"
+      :id="props.todo.id"
     />
     <font-awesome-icon
-      v-if="!todo.completed"
+      v-if="!props.todo.completed"
       icon="check"
       class="i fas fa-check"
-      :id="todo.id"
+      :id="props.todo.id"
     />
-    <font-awesome-icon icon="trash" class="i fas fa-trash" :id="todo.id" />
+    <font-awesome-icon
+      icon="trash"
+      class="i fas fa-trash"
+      :id="props.todo.id"
+    />
   </div>
 </template>
 
-<script>
-export default {
-  name: "todoItem",
-  props: {
-    todo: Object,
-  },
-};
+<script setup>
+import { defineProps } from "vue";
+
+const props = defineProps({
+  todo: Object,
+});
 </script>
 
 <style scoped>
