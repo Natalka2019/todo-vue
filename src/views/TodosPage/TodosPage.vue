@@ -1,6 +1,10 @@
 <template>
-  <div class="container">
-    <h1>ToDo List</h1>
+  <div class="container font-montserrat p-5">
+    <h1
+      class="mb-5 text-center border-b-2 border-neutral-400 text-4xl font-extrabold"
+    >
+      ToDo List
+    </h1>
     <div class="input-container">
       <inputRegular
         type="text"
@@ -99,19 +103,6 @@ const toggleComplete = (id) => {
 </script>
 
 <style scoped>
-.container {
-  font-family: "Montserrat", sans-serif;
-  padding: 0 20px;
-  display: flex;
-  flex-direction: column;
-}
-
-h1 {
-  text-align: center;
-  border-bottom: 1px solid #999;
-  padding: 0 0 15px 0;
-}
-
 .input-container {
   text-align: center;
   padding: 20px 0 0 0;

@@ -219,6 +219,7 @@ const errorMessage = (field) => {
 <style scoped>
 .container {
   height: 100vh;
+  max-width: initial;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -238,6 +239,7 @@ h1 {
   font-weight: 500;
   font-size: 36px;
   line-height: 44px;
+  padding: 20px 0 20px 0;
 }
 
 .inputFieldContainer {
