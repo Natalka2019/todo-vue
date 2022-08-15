@@ -1,15 +1,22 @@
 <template>
-  <div class="container">
-    <div className="signUp">
-      <h1>SignUp</h1>
+  <div
+    class="font-poppins max-w-full h-screen flex justify-center items-center bg-[#f0f4f9]"
+  >
+    <div
+      className="h-fit rounded-2xl pr-10 pl-10 pb-10  border-2 border-[#e6ecf3] bg-white"
+    >
+      <h1 class="py-5 text-center text-4xl leading-[44px] font-medium">
+        SignUp
+      </h1>
       <form className="inputsContainer" @submit.prevent="submit">
         <inputRegular
-          class="inputFieldContainer"
+          :class="inputFieldContainer"
           :inputFieldClass="[
-            !form.firstName.valid && form.firstName.touched ? errorClass : '',
-            activeClass,
+            !form.firstName.valid && form.firstName.touched
+              ? [activeClass, errorClass]
+              : [activeClass, correctClass],
           ]"
-          inputFieldErrorClass="inputFieldErrorClass"
+          :inputFieldErrorClass="inputFieldErrorClass"
           label="First name"
           placeholder="Enter first name"
           v-model.trim="form.firstName.value"
@@ -18,12 +25,13 @@
           @blur="form.firstName.blur"
         />
         <inputRegular
-          class="inputFieldContainer"
+          :class="inputFieldContainer"
           :inputFieldClass="[
-            !form.lastName.valid && form.lastName.touched ? errorClass : '',
-            activeClass,
+            !form.lastName.valid && form.lastName.touched
+              ? [activeClass, errorClass]
+              : [activeClass, correctClass],
           ]"
-          inputFieldErrorClass="inputFieldErrorClass"
+          :inputFieldErrorClass="inputFieldErrorClass"
           label="Last name"
           placeholder="Enter last name"
           v-model="form.lastName.value"
@@ -32,12 +40,13 @@
           @blur="form.lastName.blur"
         />
         <inputRegular
-          class="inputFieldContainer"
+          :class="inputFieldContainer"
           :inputFieldClass="[
-            !form.email.valid && form.email.touched ? errorClass : '',
-            activeClass,
+            !form.email.valid && form.email.touched
+              ? [activeClass, errorClass]
+              : [activeClass, correctClass],
           ]"
-          inputFieldErrorClass="inputFieldErrorClass"
+          :inputFieldErrorClass="inputFieldErrorClass"
           label="Email"
           placeholder="Enter email"
           v-model="form.email.value"
@@ -46,12 +55,13 @@
           @blur="form.email.blur"
         />
         <inputRegular
-          class="inputFieldContainer"
+          :class="inputFieldContainer"
           :inputFieldClass="[
-            !form.phone.valid && form.phone.touched ? errorClass : '',
-            activeClass,
+            !form.phone.valid && form.phone.touched
+              ? [activeClass, errorClass]
+              : [activeClass, correctClass],
           ]"
-          inputFieldErrorClass="inputFieldErrorClass"
+          :inputFieldErrorClass="inputFieldErrorClass"
           label="Phone number"
           placeholder="Enter phone number"
           v-model="form.phone.value"
@@ -60,12 +70,13 @@
           @blur="form.phone.blur"
         />
         <inputRegular
-          class="inputFieldContainer"
+          :class="inputFieldContainer"
           :inputFieldClass="[
-            !form.password.valid && form.password.touched ? errorClass : '',
-            activeClass,
+            !form.password.valid && form.password.touched
+              ? [activeClass, errorClass]
+              : [activeClass, correctClass],
           ]"
-          inputFieldErrorClass="inputFieldErrorClass"
+          :inputFieldErrorClass="inputFieldErrorClass"
           label="Password"
           placeholder="Enter password"
           v-model="form.password.value"
@@ -75,14 +86,13 @@
           @blur="form.password.blur"
         />
         <inputRegular
-          class="inputFieldContainer"
+          :class="inputFieldContainer"
           :inputFieldClass="[
             !form.confirmPassword.valid && form.confirmPassword.touched
-              ? errorClass
-              : '',
-            activeClass,
+              ? [activeClass, errorClass]
+              : [activeClass, correctClass],
           ]"
-          inputFieldErrorClass="inputFieldErrorClass"
+          :inputFieldErrorClass="inputFieldErrorClass"
           label="Confirm password"
           placeholder="Enter confirm password"
           v-model="form.confirmPassword.value"
@@ -99,7 +109,7 @@
         <buttonRegular
           @click="goToTodosPage(form)"
           title="SignUp"
-          class="signUpButton"
+          class="text-sm mt-7 font-medium leading-5 rounded border-2 py-3 px-5 w-[400px] h-11 border-[#558fe6] bg-[#558fe6] text-white"
           type="submit"
           :disabled="!form.valid"
         />
@@ -125,8 +135,11 @@ import {
 
 const router = useRouter();
 
-const activeClass = "inputField";
-const errorClass = "invalid";
+const activeClass = "h-9 py-2 px-3 bg-white rounded";
+const correctClass = "border-2 border-[#cfd6de]";
+const errorClass = "border-2 border-red-500";
+const inputFieldContainer = "leading-4 mb-2 text-xs w-[400px]";
+const inputFieldErrorClass = "text-xs text-red-500";
 
 const form = useForm({
   firstName: {
@@ -215,71 +228,3 @@ const errorMessage = (field) => {
   }
 };
 </script>
-
-<style scoped>
-.container {
-  height: 100vh;
-  max-width: initial;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: #f0f4f9;
-  font-family: "Poppins", sans-serif;
-}
-
-.signUp {
-  background-color: #fff;
-  border: 1px solid #e6ecf3;
-  border-radius: 20px;
-  padding: 0 40px 40px 40px;
-}
-
-h1 {
-  text-align: center;
-  font-weight: 500;
-  font-size: 36px;
-  line-height: 44px;
-  padding: 20px 0 20px 0;
-}
-
-.inputFieldContainer {
-  width: 400px;
-  margin-bottom: 8px;
-  font-size: 13px;
-  line-height: 20px;
-}
-
-.inputFieldContainer:last-of-type {
-  margin-bottom: 30px;
-}
-
-::v-deep .inputField {
-  height: 36px;
-  padding: 8px 12px;
-  background: #ffffff;
-  border: 1px solid #cfd6de;
-  border-radius: 4px;
-}
-
-::v-deep .invalid {
-  border: 1px solid red;
-}
-
-::v-deep .inputFieldErrorClass {
-  font-size: 12px;
-  color: red;
-}
-
-.signUpButton {
-  width: 400px;
-  height: 44px;
-  background: #558fe6;
-  border: 1px solid #558fe6;
-  border-radius: 4px;
-  padding: 12px 20px;
-  font-weight: 500;
-  font-size: 13px;
-  line-height: 20px;
-  color: #ffffff;
-}
-</style>

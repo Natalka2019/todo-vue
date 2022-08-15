@@ -1,6 +1,6 @@
 <template>
   <button
-    class="button"
+    class="cursor-pointer p-3 rounded disabled:bg-neutral-300 border-none disabled:border-none tracking-wider"
     @click="props.onClick"
     :type="props.type"
     :disabled="props.disabled"
@@ -22,21 +22,3 @@ const props = defineProps({
   disabled: Boolean,
 });
 </script>
-
-<style scoped>
-.button {
-  box-sizing: border-box;
-  padding: 12px;
-  border-radius: 5px;
-  border: none;
-  outline: none;
-  font-family: inherit;
-  letter-spacing: 0.8px;
-  cursor: pointer;
-}
-
-.button:disabled {
-  background-color: rgb(163, 159, 159);
-  border: none;
-}
-</style>

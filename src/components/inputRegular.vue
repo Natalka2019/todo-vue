@@ -1,8 +1,7 @@
 <template>
-  <div class="inputContainer">
-    <label v-if:="label" class="label">{{ props.label }}</label>
+  <div class="flex flex-col">
+    <label v-if:="label" class="mb-2">{{ props.label }}</label>
     <input
-      class="input"
       :class="props.inputFieldClass"
       :placeholder="props.placeholder"
       :required="props.required"
@@ -12,7 +11,7 @@
       @blur="emit('blur')"
       :maxlength="props.maxPasswordlength"
     />
-    <p class="error" :class="props.inputFieldErrorClass">{{ props.error }}</p>
+    <p :class="props.inputFieldErrorClass">{{ props.error }}</p>
   </div>
 </template>
 
@@ -38,26 +37,3 @@ const updateValue = (event) => {
   emit("update:modelValue", event.target.value);
 };
 </script>
-
-<style scoped>
-.inputContainer {
-  display: flex;
-  flex-direction: column;
-}
-
-.label {
-  margin-bottom: 8px;
-}
-
-.input {
-  width: 100%;
-  font-size: inherit;
-  border: none;
-  background: inherit;
-  outline: none;
-}
-
-.error {
-  margin: 0;
-}
-</style>
