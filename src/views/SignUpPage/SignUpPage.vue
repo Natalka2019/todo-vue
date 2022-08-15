@@ -1,9 +1,9 @@
 <template>
   <div
-    class="font-poppins max-w-full h-screen flex justify-center items-center bg-[#f0f4f9]"
+    class="font-poppins max-w-full h-screen flex justify-center items-center sm:bg-[#f0f4f9]"
   >
     <div
-      className="h-fit rounded-2xl pr-10 pl-10 pb-10  border-2 border-[#e6ecf3] bg-white"
+      className="h-fit rounded-2xl sm:pr-10 sm:pl-10 sm:pb-10  sm:border-2 sm:border-[#e6ecf3] bg-white"
     >
       <h1 class="py-5 text-center text-4xl leading-[44px] font-medium">
         SignUp
@@ -109,7 +109,7 @@
         <buttonRegular
           @click="goToTodosPage(form)"
           title="SignUp"
-          class="text-sm mt-7 font-medium leading-5 rounded border-2 py-3 px-5 w-[400px] h-11 border-[#558fe6] bg-[#558fe6] text-white"
+          class="text-sm mt-7 font-medium leading-5 rounded border-2 py-3 px-5 w-60 sm:w-[400px] h-11 border-[#558fe6] bg-[#558fe6] text-white"
           type="submit"
           :disabled="!form.valid"
         />
@@ -138,7 +138,7 @@ const router = useRouter();
 const activeClass = "h-9 py-2 px-3 bg-white rounded";
 const correctClass = "border-2 border-[#cfd6de]";
 const errorClass = "border-2 border-red-500";
-const inputFieldContainer = "leading-4 mb-2 text-xs w-[400px]";
+const inputFieldContainer = "leading-4 mb-2 text-xs w-60 sm:w-[400px]";
 const inputFieldErrorClass = "text-xs text-red-500";
 
 const form = useForm({
