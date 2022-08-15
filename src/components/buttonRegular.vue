@@ -17,7 +17,7 @@ const props = defineProps({
   type: String,
   onClick: {
     type: Function,
-    required: true,
+    required: false,
   },
   disabled: Boolean,
 });

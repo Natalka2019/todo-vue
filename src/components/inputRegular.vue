@@ -11,7 +11,13 @@
       @blur="emit('blur')"
       :maxlength="props.maxPasswordlength"
     />
-    <p :class="props.inputFieldErrorClass">{{ props.error }}</p>
+    <p
+      :class="props.inputFieldErrorClass"
+      v-for="error in errors"
+      :key="error.$uid"
+    >
+      {{ error.$message }}
+    </p>
   </div>
 </template>
 
@@ -24,7 +30,7 @@ const props = defineProps({
   required: Boolean,
   modelValue: String,
   label: String,
-  error: String,
+  errors: Array,
   inputFieldClass: [String, Array],
   inputFieldErrorClass: String,
   blur: Function,
