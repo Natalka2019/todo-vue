@@ -110,6 +110,7 @@
           title="SignUp"
           class="text-sm mt-7 font-medium leading-5 rounded border-2 py-3 px-5 w-60 sm:w-[400px] h-11 border-[#558fe6] bg-[#558fe6] text-white"
           type="submit"
+          :disabled="v$.$invalid"
         />
       </form>
     </div>
@@ -133,94 +134,16 @@ const inputFieldErrorClass = "text-xs text-red-500";
 
 const v$ = useVuelidate(rules, form);
 
-// const form = useForm({
-//   firstName: {
-//     name: "First name",
-//     value: "",
-//     validators: {
-//       required,
-//       minLength: minLength(2),
-//       maxLength: maxLength(20),
-//       noDigits,
-//     },
-//   },
-//   lastName: {
-//     name: "Last name",
-//     value: "",
-//   },
-//   email: {
-//     name: "Email",
-//     value: "",
-//     validators: {
-//       validEmail,
-//     },
-//   },
-//   phone: {
-//     name: "Phone number",
-//     value: "",
-//   },
-//   password: {
-//     name: "Password",
-//     value: "",
-//     validators: {
-//       required,
-//       minLength: minLength(8),
-//       maxLength: maxLength(50),
-//       validPassword,
-//     },
-//   },
-//   confirmPassword: {
-//     name: "Confirm password",
-//     value: "",
-//     validators: {
-//       required,
-//       validConfirmPassword,
-//     },
-//   },
-// });
-
 const submit = async () => {
   const result = await v$.value.$validate();
 
   if (result) {
     console.log(result);
     console.log(form);
-    console.log(rules);
     //router.push("/todos");
   } else {
     console.log("Not submited");
     console.log(result);
   }
 };
-
-// const validateConfirmPassword = () => {
-//   const isTheSamePassword =
-//     form.password?.value === form.confirmPassword?.value;
-
-//   form.confirmPassword.errors.validConfirmPassword.status = !isTheSamePassword;
-
-//   form.confirmPassword.valid =
-//     !form.confirmPassword.errors.required.status &&
-//     !form.confirmPassword.errors.validConfirmPassword.status;
-// };
-
-// const errorMessage = (field) => {
-//   if (field.valid) {
-//     return "";
-//   }
-
-//   if (field.errors.required?.status) {
-//     return `${field.name} is required`;
-//   } else if (field.errors.minLength?.status || field.errors.maxLength?.status) {
-//     return `${field.name} must be from ${field.errors.minLength.value} to ${field.errors.maxLength.value} characters`;
-//   } else if (field.errors.noDigits?.status) {
-//     return `${field.name} can not contain digits`;
-//   } else if (field.errors.validEmail?.status) {
-//     return "Email invalid";
-//   } else if (field.errors.validPassword?.status) {
-//     return "Invalid password. Should contain at least 1 upper-case letter and 1 digit, spaces are not allowed.";
-//   } else if (field.errors.validConfirmPassword?.status) {
-//     return "Passwords do not match";
-//   }
-// };
 </script>
