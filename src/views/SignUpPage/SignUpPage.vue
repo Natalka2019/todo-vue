@@ -17,7 +17,7 @@
               : [activeClass, correctClass],
           ]"
           :inputFieldErrorClass="inputFieldErrorClass"
-          label="First name"
+          label="*First name"
           placeholder="Enter first name"
           v-model.trim="form.firstName"
           type="text"
@@ -47,7 +47,7 @@
               : [activeClass, correctClass],
           ]"
           :inputFieldErrorClass="inputFieldErrorClass"
-          label="Email"
+          label="*Email"
           placeholder="Enter email"
           v-model="form.email"
           type="email"
@@ -77,7 +77,7 @@
               : [activeClass, correctClass],
           ]"
           :inputFieldErrorClass="inputFieldErrorClass"
-          label="Password"
+          label="*Password"
           placeholder="Enter password"
           v-model="form.password"
           type="password"
@@ -93,7 +93,7 @@
               : [activeClass, correctClass],
           ]"
           :inputFieldErrorClass="inputFieldErrorClass"
-          label="Confirm password"
+          label="*Confirm password"
           placeholder="Enter confirm password"
           v-model="form.confirmPassword"
           type="password"
@@ -118,13 +118,13 @@
 </template>
 
 <script setup>
-//import { useRouter } from "vue-router";
+import { useRouter } from "vue-router";
 import { useVuelidate } from "@vuelidate/core";
 import { form, rules } from "./ValidationRules";
 import buttonRegular from "../../components/buttonRegular.vue";
 import inputRegular from "../../components/inputRegular.vue";
 
-//const router = useRouter();
+const router = useRouter();
 
 const activeClass = "h-9 py-2 px-3 bg-white rounded";
 const correctClass = "border-2 border-[#cfd6de]";
@@ -140,7 +140,7 @@ const submit = async () => {
   if (result) {
     console.log(result);
     console.log(form);
-    //router.push("/todos");
+    router.push("/todos");
   } else {
     console.log("Not submited");
     console.log(result);

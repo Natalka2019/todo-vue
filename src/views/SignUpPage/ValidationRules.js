@@ -18,15 +18,15 @@ export const form = reactive({
   confirmPassword: "",
 });
 
-const firstNameLengthValidationMessage = `First name mast be from ${constants.MINIMAL_FIRST_NAME_LENGTH} to ${constants.MAXIMUM_FIRST_NAME_LENGTH} characters`;
-const PasswordLengthValidationMessage = `Password mast be from ${constants.MINIMAL_PASSWORD_LENGTH} to ${constants.MAXIMUM_PASSWORD_LENGTH} characters`;
+const firstNameLengthValidationMessage = `First name mast be from ${constants.MINIMAL_FIRST_NAME_LENGTH} to ${constants.MAXIMUM_FIRST_NAME_LENGTH} characters.`;
+const PasswordLengthValidationMessage = `Password mast be from ${constants.MINIMAL_PASSWORD_LENGTH} to ${constants.MAXIMUM_PASSWORD_LENGTH} characters.`;
 
 export const rules = computed(() => {
   return {
     firstName: {
-      required: helpers.withMessage("First name is required", required),
+      required: helpers.withMessage("First name is required.", required),
       noDigits: helpers.withMessage(
-        "First name can not contain digits",
+        "First name can not contain digits.",
         regEx.noDigits
       ),
       minLength: helpers.withMessage(
@@ -40,12 +40,12 @@ export const rules = computed(() => {
     },
     lastName: {},
     email: {
-      required: helpers.withMessage("Email is required", required),
-      validEmail: helpers.withMessage("Email invalid", regEx.validEmail),
+      required: helpers.withMessage("Email is required.", required),
+      validEmail: helpers.withMessage("Email invalid.", regEx.validEmail),
     },
     phone: {},
     password: {
-      required: helpers.withMessage("Password is required", required),
+      required: helpers.withMessage("Password is required.", required),
       minLength: helpers.withMessage(
         PasswordLengthValidationMessage,
         minLength(constants.MINIMAL_PASSWORD_LENGTH)
@@ -60,9 +60,9 @@ export const rules = computed(() => {
       ),
     },
     confirmPassword: {
-      required: helpers.withMessage("Confirm password is required", required),
+      required: helpers.withMessage("Confirm password is required.", required),
       sameAs: helpers.withMessage(
-        "Passwords do not match",
+        "Passwords do not match.",
         sameAs(form.password)
       ),
     },

@@ -11,13 +11,15 @@
       @blur="emit('blur')"
       :maxlength="props.maxPasswordlength"
     />
-    <p
-      :class="props.inputFieldErrorClass"
-      v-for="error in errors"
-      :key="error.$uid"
-    >
-      {{ error.$message }}
-    </p>
+    <div>
+      <span
+        :class="props.inputFieldErrorClass"
+        v-for="error in errors"
+        :key="error.$uid"
+      >
+        {{ error.$message + " " }}
+      </span>
+    </div>
   </div>
 </template>
 
