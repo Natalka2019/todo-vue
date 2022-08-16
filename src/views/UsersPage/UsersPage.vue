@@ -1,6 +1,5 @@
 <template>
   <div class="container">
-    <label>Select user</label>
     <inputRegular
       class="inputFieldContainer"
       inputFieldClass="inputField"
@@ -9,37 +8,50 @@
       v-model.trim="search"
       type="text"
     />
-    <ul v-for="user in searchResult" v-bind:key="user.id">
-      <li>{{ user.name }}</li>
-    </ul>
+    <div>
+      <div v-if="loading">Loading...</div>
+      <div class="text-red-700" v-if="!loading && error">{{error}}</div>
+      <ul v-if="!loading && users?.length" >
+        <li v-for="user in searchResult" v-bind:key="user.id">{{ user.name }}</li>
+      </ul>
+    </div>
   </div>
 </template>
 
 <script setup>
-import { ref, computed } from "vue";
+import { ref, onMounted, computed} from "vue";
 import inputRegular from "../../components/inputRegular.vue";
+import {useFetch} from "@/use/fetch";
 
-const search = ref("");
 const placeholder = "enter name to search";
-const users = [
-  { id: 1, name: "john", email: "john@xyz.com" },
-  { id: 2, name: "lee min", email: "leemin@xyz.com" },
-  { id: 3, name: "alexa", email: "alexa@xyz.com" },
-  { id: 4, name: "rosy", email: "rosy@xyz.com" },
-  { id: 5, name: "joy", email: "joy@xyz.com" },
-  { id: 6, name: "john", email: "john@vue.com" },
-];
+const search = ref("");
+const users = ref([]);
+const usersUrl = "https://jsonplaceholder.typicode.com/users";
+
+
+const {data, error, loading, request} = useFetch(usersUrl);
+
+const loadUsers = async () => {
+  await request(usersUrl);
+
+  users.value = data.value;
+  };
+
+onMounted(()=> {
+  loadUsers();
+});
+
 
 const searchResult = computed(() => {
   if (search.value) {
-    return users.filter((item) => {
+    return users.value.filter((item) => {
       return search.value
         .toLowerCase()
         .split(" ")
         .every((v) => item.name.toLowerCase().includes(v));
     });
   } else {
-    return users;
+    return users.value;
   }
 });
 
