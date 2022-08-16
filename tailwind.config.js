@@ -8,10 +8,16 @@ module.exports = {
   theme: {
     extend: {
       sm: "370px",
-    },
-    fontFamily: {
-      poppins: ["Poppins", "sans-serif"],
-      montserrat: ["Montserrat", "sans-serif"],
+      fontFamily: {
+        poppins: ["Poppins", "sans-serif"],
+        montserrat: ["Montserrat", "sans-serif"],
+      },
+      colors: {
+        grey: "#e6ecf3",
+        lightGrey: "#cfd6de",
+        lightBlue: "#f0f4f9",
+        blue: "#558fe6",
+      },
     },
   },
   plugins: [],
