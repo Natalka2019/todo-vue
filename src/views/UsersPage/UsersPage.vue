@@ -1,5 +1,6 @@
 <template>
   <div class="container">
+    <label>Select user</label>
     <inputRegular
       class="inputFieldContainer"
       inputFieldClass="inputField"
